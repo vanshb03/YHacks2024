@@ -1,81 +1,85 @@
 import { getUserSession } from "../../lib/sessions"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CardContent, Card, CardTitle, CardHeader } from "@/components/ui/card"
+import { GoogleSignIn } from "@/components/component/google-signin";
+import { SignOut } from "@/components/component/signout";
+import Image from "next/image";
 
 export default async function Component() {
   const user = await getUserSession();
+  
+  if (!user) {
+    return (
+      <main className="w-full h-screen flex justify-center items-center">
+        <section className="w-2/5 flex flex-col">
+          <Image className="rounded-full self-center" width="120" height="120" src="/yaleed.webp" alt="YaleED logo" />
+          <section className="border-zinc-700 border-t-2 flex flex-col gap-5 mt-5 pt-7">
+            <p className="text-center font-bold">To continue, log in to YaleED with your school account.</p>
+            <GoogleSignIn />
+          </section>
+        </section>
+      </main>
+    )
+  }
 
   return (
-    <div className="flex flex-col min-h-screen w-full">
-      <pre>
-        {JSON.stringify(user)}
-      </pre>
-      <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
-        <Link className="flex items-center gap-2" href="#">
-          <Package2Icon className="w-6 h-6" />
-          <span className="sr-only">Acme Inc</span>
-        </Link>
-        <nav className="flex items-center gap-5 ml-auto lg:gap-6">
-          <Link className="font-bold" href="#">
-            Home
-          </Link>
-          <Link className="text-gray-500 dark:text-gray-400" href="#">
-            Courses
-          </Link>
-          <Link className="text-gray-500 dark:text-gray-400" href="#">
-            Calendar
-          </Link>
-          <Link className="text-gray-500 dark:text-gray-400" href="#">
-            Grades
-          </Link>
-          <Link className="text-gray-500 dark:text-gray-400" href="#">
-            Profile
-          </Link>
+    <div className="grid h-screen grid-cols-10">
+      <aside className="col-span-2">
+        <nav className="flex-col flex gap-4 p-4 bg-gray-100 h-full dark:bg-gray-800">
+          <Image
+            alt="Avatar"
+            className="rounded-full self-center"
+            height={96}
+            src={user.image ?? ""}
+            width={96}
+            style={{
+              aspectRatio: "96/96",
+              objectFit: "cover",
+            }}
+          />
+          <p className="text-2xl font-bold text-center">{user.name}</p>
+          <SignOut />
         </nav>
-      </header>
-      <main className="grid min-h-[calc(100vh_-_theme(spacing.16))] grid-cols-1 gap-4 p-4 md:grid-cols-2 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 dark:text-gray-100 md:p-10">
-        <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4">
-          <Card className="flex-1">
-            <CardContent className="flex flex-col items-center justify-center space-y-2">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="96"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "96/96",
-                  objectFit: "cover",
-                }}
-                width="96"
-              />
-              <div className="flex flex-col items-center">
-                <div className="text-2xl font-bold">Vansh Kumar</div>
-                <Button size="sm">Upgrade Plan</Button>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="flex-1">
-            <CardHeader className="flex flex-row items-center gap-4">
-              <CalendarCheckIcon className="w-6 h-6" />
-              <CardTitle>Upcoming Classes</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2">
+      </aside>
+      <main className="col-span-8 overflow-y-scroll grid grid-cols-1 gap-4 p-4 md:grid-cols-2 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 dark:text-gray-100 md:p-10">
+        <Card className="flex-1">
+          <CardHeader className="flex flex-row items-center gap-4">
+            <CalendarCheckIcon className="w-6 h-6" />
+            <CardTitle>Upcoming Classes</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <VideoIcon className="w-12 h-12 rounded-lg" />
               <div className="flex flex-col gap-1">
-                <span className="font-semibold">Mathematics</span>
+                <span className="font-semibold">Biology</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">09:00 AM - 10:00 AM</span>
               </div>
+              <Button className="ml-auto" size="xs">
+                Join Class
+              </Button>
+            </div>
+            <div className="flex items-center gap-4">
+              <VideoIcon className="w-12 h-12 rounded-lg" />
               <div className="flex flex-col gap-1">
-                <span className="font-semibold">Science</span>
+                <span className="font-semibold">Physics</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">10:30 AM - 11:30 AM</span>
               </div>
+              <Button className="ml-auto" size="xs">
+                Join Class
+              </Button>
+            </div>
+            <div className="flex items-center gap-4">
+              <VideoIcon className="w-12 h-12 rounded-lg" />
               <div className="flex flex-col gap-1">
-                <span className="font-semibold">History</span>
+                <span className="font-semibold">Chemistry</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">12:00 PM - 01:00 PM</span>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <Button className="ml-auto" size="xs">
+                Join Class
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
         <Card className="flex-1">
           <CardHeader className="flex flex-row items-center gap-4">
             <CalendarCheckIcon className="w-6 h-6" />
