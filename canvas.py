@@ -25,8 +25,8 @@ prefs = {
 chrome_options.add_experimental_option("prefs", prefs)
 
 # Your credentials
-user = 'kllarena'
-password = 'UmichVsKPopGoCrazy01'
+user = 'username'
+password = 'password'
 
 # Path to your ChromeDriver
 driver_path = './chromedriver.exe'
