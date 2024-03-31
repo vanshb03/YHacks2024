@@ -11,7 +11,9 @@ import requests
 from pymongo import MongoClient
 from gridfs import GridFS
 from io import BytesIO
-
+import csv
+from icalendar import Calendar
+import json
 download_folder = ".\canvafile"
 chrome_options = Options()
 chrome_options.page_load_strategy = 'eager' 
@@ -81,8 +83,14 @@ try:
     link_element = driver.find_element(By.PARTIAL_LINK_TEXT, link_text)
     href_value = link_element.get_attribute('href')
     response = requests.get(href_value)
-    file_content = response.content
-    print(href_value)
+    if response.status_code == 200:
+        # Save the ICS content to a local file named "input.ics"
+        with open('./input.ics', 'wb') as f:
+            f.write(response.content)
+        print("ICS file saved as input.ics")
+    else:
+        print("Failed to download the ICS file. Status code:", response.status_code)
+        exit() 
 
     time.sleep(10)
 
@@ -91,13 +99,43 @@ try:
     
 finally:
     driver.quit()
-    client = MongoClient('mongodb+srv://quikflixagency:eAHnajJyRKQXH6FG@cluster0.to2tyir.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-    db = client['Yaleeed']  # Replace with your database name
-    fs = GridFS(db)
-    with BytesIO(file_content) as f:
-        fs.put(f, filename='downloaded_file.ics') 
-    print('File uploaded to MongoDB successfully.')
+    def ics_to_json(ics_file_path, json_file_path):
+        with open(ics_file_path, 'rb') as f:
+            cal = Calendar.from_ical(f.read())
 
-    pass
+        events = []
+        for component in cal.walk():
+            if component.name == "VEVENT":
+                event = {
+                    "Event Name": str(component.get('summary')),
+                    "Start Date": str(component.get('dtstart').dt),
+                    "End Date": str(component.get('dtend').dt) if component.get('dtend') else None
+                }
+                events.append(event)
+
+        with open(json_file_path, 'w') as jsonfile:
+            json.dump(events, jsonfile, indent=4)
+
+    ics_file_path = './input.ics'
+    json_file_path = './output.json'
+
+
+    # MongoDB Atlas connection string
+    connection_string = 'something'
+
+    events = ics_to_json(ics_file_path, json_file_path)
+    client = MongoClient(connection_string)
+    db = client['Yaleeeeed']  # Replace with your database name
+    fs = GridFS(db)
+
+    with BytesIO(json.dumps(events, indent=4).encode()) as f:
+        fs.put(f, filename='output.json')
+
+    print('JSON data uploaded to MongoDB successfully.')
+
+
+
+
+pass
 
 # Replace 'actualSelectorAfterLogin' with a CSS selector that confirms you've successfully logged in.
