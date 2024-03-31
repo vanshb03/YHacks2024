@@ -45,7 +45,7 @@ export default function Component() {
                 width="96"
               />
               <div className="flex flex-col items-center">
-                <div className="text-2xl font-bold">Vansh Kumar</div>
+                <div className="text-2xl font-bold">Hey name</div>
                 <Button size="sm">Upgrade Plan</Button>
               </div>
             </CardContent>
