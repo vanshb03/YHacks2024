@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "google": "^2.1.0",
+    "mongoose": "^8.2.4",
+    "next-auth": "^4.24.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.2"
+  }
+}
