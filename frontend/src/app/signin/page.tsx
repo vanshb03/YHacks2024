@@ -30,7 +30,7 @@ export default function Component() {
         <Button className="w-full">Login</Button>
         <GoogleSignInButton />
         <div className="mt-4 text-center text-sm">
-          Don't have an account?
+          Dont have an account?
           <Link className="underline" href="/signup">
             Sign up
           </Link>
