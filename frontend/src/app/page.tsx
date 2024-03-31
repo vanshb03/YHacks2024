@@ -1,11 +1,16 @@
-
+import { getUserSession } from "../../lib/sessions"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CardContent, Card, CardTitle, CardHeader } from "@/components/ui/card"
 
-export default function Component() {
+export default async function Component() {
+  const user = await getUserSession();
+
   return (
     <div className="flex flex-col min-h-screen w-full">
+      <pre>
+        {JSON.stringify(user)}
+      </pre>
       <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
         <Link className="flex items-center gap-2" href="#">
           <Package2Icon className="w-6 h-6" />
