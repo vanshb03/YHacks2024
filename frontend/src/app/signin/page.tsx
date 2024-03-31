@@ -2,6 +2,9 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import {
+  GoogleSignInButton,
+} from "@/components/component/authButton.tsx";
 
 export default function Component() {
   return (
@@ -18,19 +21,17 @@ export default function Component() {
         <div className="space-y-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            <Link className="ml-auto inline-block text-sm underline" href="#">
+            {/* <Link className="ml-auto inline-block text-sm underline" href="#">
               Forgot your password?
-            </Link>
+            </Link> */}
           </div>
           <Input id="password" required type="password" />
         </div>
         <Button className="w-full">Login</Button>
-        <Button className="w-full" variant="outline">
-          Login with Google
-        </Button>
+        <GoogleSignInButton />
         <div className="mt-4 text-center text-sm">
           Don't have an account?
-          <Link className="underline" href="#">
+          <Link className="underline" href="/signup">
             Sign up
           </Link>
         </div>

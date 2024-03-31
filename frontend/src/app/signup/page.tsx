@@ -30,7 +30,7 @@ export default function Component() {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             By clicking Sign Up, you agree to our Terms, Data Policy and Cookies Policy.
           </p>
-          <Link className="text-sm underline" href="#">
+          <Link className="text-sm underline" href="/signin">
             Already have an account? Login
           </Link>
         </div>
