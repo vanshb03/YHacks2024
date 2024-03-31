@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
   GoogleSignInButton,
-} from "@/components/component/authButton.tsx";
+} from "@/components/component/AuthButton";
 
 export default function Component() {
   return (
